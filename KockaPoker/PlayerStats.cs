@@ -8,7 +8,10 @@ namespace KockaPoker
 {
     internal class PlayerStats
     {
-        public DiceThrowing Dices = null;
+        static Random diceGenerator = new Random();
+
+        public int[] CurrentDices = new int[5];
+
         /* Felső rész */
         public int[] Numbers { get; } = new int[6];
 
@@ -60,9 +63,11 @@ namespace KockaPoker
             ScoreKinds(dices, 5) != 0 ? 50 : 0;
         public int ScoreChance(int[] dices) =>
             dices.Sum();
-        public void ThrowDice()
+        public void GenerateDiceParts(bool[] regenerate)
         {
-            Dices = new DiceThrowing();
+            for (int i = 0; i < CurrentDices.Length; i++)
+                if (!regenerate[i])
+                    CurrentDices[i] = diceGenerator.Next(1, 7);
         }
     }
 }
