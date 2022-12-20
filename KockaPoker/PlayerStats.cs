@@ -8,6 +8,7 @@ namespace KockaPoker
 {
     internal class PlayerStats
     {
+        public DiceThrowing Dices = null;
         /* Felső rész */
         public int[] Numbers { get; } = new int[6];
 
@@ -19,7 +20,6 @@ namespace KockaPoker
         public bool LargeStraight { get; set; } /* fix 40 pont */
         public bool Yahtzee { get; set; } /* fix 50 pont */
         public int Chance { get; set; } /* összeadja az összeset */
-
         public int ScoreNumbers(int[] dices, int selectedNumber)
         {
             int sum = 0;
@@ -29,18 +29,40 @@ namespace KockaPoker
 
             return sum;
         }
-
-        public int ScoreThreeKind(int[] dices)
+        public int ScoreKinds(int[] dices, int countKind)
         {
             int[] countNumbers = new int[6];
             foreach (int current in dices)
                 countNumbers[current]++;
 
             foreach (int current in countNumbers)
-                if (current >= 3)
+                if (current == countKind)
                     return dices.Sum();
 
             return 0;
+        }
+        public int ScoreFullHouse(int[] dices) =>
+            (ScoreKinds(dices, 2) != 0 && ScoreKinds(dices, 3) != 0) ? 25 : 0;
+        public int ScoreStraight(int[] dices, int straightCount)
+        {
+            Array.Sort(dices);
+            int orderNumbers = 1;
+            for (int i = 1; i < dices.Length; i++)
+                if (dices[i - 1] + 1 == dices[i])
+                    orderNumbers++;
+
+            if (orderNumbers == straightCount)
+                return straightCount == 4 ? 30 : 40;
+
+            return 0;
+        }
+        public int ScoreYahtzee(int[] dices) =>
+            ScoreKinds(dices, 5) != 0 ? 50 : 0;
+        public int ScoreChance(int[] dices) =>
+            dices.Sum();
+        public void ThrowDice()
+        {
+            Dices = new DiceThrowing();
         }
     }
 }

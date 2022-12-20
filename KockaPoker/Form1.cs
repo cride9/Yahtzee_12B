@@ -1,10 +1,17 @@
 namespace KockaPoker
 {
-    public partial class Form1 : Form
+    public partial class Yahtzee : Form
     {
-        public Form1()
+        static PlayerStats player1 = new();
+
+        public Yahtzee()
         {
             InitializeComponent();
+        }
+
+        private void throwButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
