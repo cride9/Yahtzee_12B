@@ -27,6 +27,8 @@ namespace KockaPoker
                 generatedButton3.Text = player1.CurrentDices[2].ToString();
                 generatedButton4.Text = player1.CurrentDices[3].ToString();
                 generatedButton5.Text = player1.CurrentDices[4].ToString();
+
+                CheckScores(player1.CurrentDices);
             }
             else
             {
@@ -79,16 +81,38 @@ namespace KockaPoker
             }
         }
         public void possChanging(Button sender, int index) =>
-            sender.Location = new Point(sender.Location.X, isActiveButton[index] ? 440 : 430);
+            sender.Location = new Point(sender.Location.X, isActiveButton[index] ? sender.Location.Y + 10 : sender.Location.Y - 10);
 
         private void Yahtzee_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void panel3_Paint(object sender, PaintEventArgs e)
+        private void CheckScores(int[] dices)
         {
+            player1Ones.Text = player1.ScoreNumbers(dices, 1).ToString();
+            player1Twos.Text = player1.ScoreNumbers(dices, 2).ToString();
+            player1Threes.Text = player1.ScoreNumbers(dices, 3).ToString();
+            player1Fours.Text = player1.ScoreNumbers(dices, 4).ToString();
+            player1Fives.Text = player1.ScoreNumbers(dices, 5).ToString();
+            player1Sixes.Text = player1.ScoreNumbers(dices, 6).ToString();
 
+            player1ThreeKind.Text = player1.ScoreKinds(dices, 3).ToString();
+            player1FourKind.Text = player1.ScoreKinds(dices, 4).ToString();
+            player1FullHouse.Text = player1.ScoreFullHouse(dices).ToString();
+            player1SmallStraight.Text = player1.ScoreStraight(dices, 4).ToString();
+            player1LargeStraight.Text = player1.ScoreStraight(dices, 5).ToString();
+            player1Yahtzee.Text = player1.ScoreYahtzee(dices).ToString();
+            player1Chance.Text = player1.ScoreChance(dices).ToString();
+        }
+
+        private void SaveLock(object sender, EventArgs e)
+        {
+            Button current = (Button)sender;
+
+            generatedButton5.Text = generatedButton4.Text = generatedButton3.Text = generatedButton2.Text = generatedButton1.Text = "";
+
+            chance = 4;
         }
     }
 }

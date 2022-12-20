@@ -34,7 +34,7 @@ namespace KockaPoker
         }
         public int ScoreKinds(int[] dices, int countKind)
         {
-            int[] countNumbers = new int[6];
+            int[] countNumbers = new int[7];
             foreach (int current in dices)
                 countNumbers[current]++;
 
@@ -48,11 +48,11 @@ namespace KockaPoker
             (ScoreKinds(dices, 2) != 0 && ScoreKinds(dices, 3) != 0) ? 25 : 0;
         public int ScoreStraight(int[] dices, int straightCount)
         {
-            Array.Sort(dices);
             int orderNumbers = 1;
-            for (int i = 1; i < dices.Length; i++)
-                if (dices[i - 1] + 1 == dices[i])
-                    orderNumbers++;
+            for (int i = 0; i < dices.Length; i++)
+                for(int j = 0; j < dices.Length; j++)
+                    if (dices[i] + 1 == dices[j])
+                        orderNumbers++;
 
             if (orderNumbers == straightCount)
                 return straightCount == 4 ? 30 : 40;
