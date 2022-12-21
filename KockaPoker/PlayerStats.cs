@@ -48,13 +48,16 @@ namespace KockaPoker
             (ScoreKinds(dices, 2) != 0 && ScoreKinds(dices, 3) != 0) ? 25 : 0;
         public int ScoreStraight(int[] dices, int straightCount)
         {
-            int orderNumbers = 1;
-            for (int i = 0; i < dices.Length; i++)
-                for(int j = 0; j < dices.Length; j++)
-                    if (dices[i] + 1 == dices[j])
-                        orderNumbers++;
+            int[] tempArray = { dices[0], dices[1], dices[2], dices[3], dices[4] };
 
-            if (orderNumbers == straightCount)
+            Array.Sort(tempArray);
+
+            int length = 1;
+            for (int i = 1; i < tempArray.Length; i++)
+                if (tempArray[i - 1] + 1 == tempArray[i])
+                    length++;
+
+            if (length == straightCount)
                 return straightCount == 4 ? 30 : 40;
 
             return 0;
@@ -65,9 +68,13 @@ namespace KockaPoker
             dices.Sum();
         public void GenerateDiceParts(bool[] regenerate)
         {
-            for (int i = 0; i < CurrentDices.Length; i++)
-                if (!regenerate[i])
+            if (regenerate.Length == 0)
+                for (int i = 0; i < CurrentDices.Length; i++)
                     CurrentDices[i] = diceGenerator.Next(1, 7);
+            else
+                for (int i = 0; i < CurrentDices.Length; i++)
+                    if (!regenerate[i])
+                        CurrentDices[i] = diceGenerator.Next(1, 7);
         }
     }
 }

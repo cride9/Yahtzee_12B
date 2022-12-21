@@ -114,7 +114,7 @@
             this.generatedButton1.Size = new System.Drawing.Size(41, 47);
             this.generatedButton1.TabIndex = 1;
             this.generatedButton1.UseVisualStyleBackColor = true;
-            this.generatedButton1.Click += new System.EventHandler(this.generatedButton1_Click);
+            this.generatedButton1.Click += new System.EventHandler(this.possChanging);
             // 
             // generatedButton2
             // 
@@ -126,7 +126,7 @@
             this.generatedButton2.Size = new System.Drawing.Size(41, 47);
             this.generatedButton2.TabIndex = 2;
             this.generatedButton2.UseVisualStyleBackColor = true;
-            this.generatedButton2.Click += new System.EventHandler(this.generatedButton2_Click);
+            this.generatedButton2.Click += new System.EventHandler(this.possChanging);
             // 
             // generatedButton3
             // 
@@ -138,7 +138,7 @@
             this.generatedButton3.Size = new System.Drawing.Size(41, 47);
             this.generatedButton3.TabIndex = 3;
             this.generatedButton3.UseVisualStyleBackColor = true;
-            this.generatedButton3.Click += new System.EventHandler(this.generatedButton3_Click);
+            this.generatedButton3.Click += new System.EventHandler(this.possChanging);
             // 
             // generatedButton4
             // 
@@ -150,7 +150,7 @@
             this.generatedButton4.Size = new System.Drawing.Size(41, 47);
             this.generatedButton4.TabIndex = 4;
             this.generatedButton4.UseVisualStyleBackColor = true;
-            this.generatedButton4.Click += new System.EventHandler(this.generatedButton4_Click);
+            this.generatedButton4.Click += new System.EventHandler(this.possChanging);
             // 
             // generatedButton5
             // 
@@ -162,7 +162,7 @@
             this.generatedButton5.Size = new System.Drawing.Size(41, 47);
             this.generatedButton5.TabIndex = 5;
             this.generatedButton5.UseVisualStyleBackColor = true;
-            this.generatedButton5.Click += new System.EventHandler(this.generatedButton5_Click);
+            this.generatedButton5.Click += new System.EventHandler(this.possChanging);
             // 
             // labelKnow
             // 

@@ -1,11 +1,13 @@
+using System;
 using System.Threading.Channels;
 
 namespace KockaPoker
 {
     public partial class Yahtzee : Form
     {
+        static Dictionary<Button, bool> buttonInformations = new();
+        static Dictionary<Button, bool> lockedInformations = new();
         static PlayerStats player1 = new();
-        public bool[] isActiveButton = new bool[5];
         static int chance = 4;
 
         public Yahtzee()
@@ -15,104 +17,92 @@ namespace KockaPoker
 
         private void throwButton_Click(object sender, EventArgs e)
         {
-            if (chance > 0)
-            {
-                chance--;
-                changeCounterLabel.Text = chance.ToString();
-
-                player1.GenerateDiceParts(isActiveButton);
-
-                generatedButton1.Text = player1.CurrentDices[0].ToString();
-                generatedButton2.Text = player1.CurrentDices[1].ToString();
-                generatedButton3.Text = player1.CurrentDices[2].ToString();
-                generatedButton4.Text = player1.CurrentDices[3].ToString();
-                generatedButton5.Text = player1.CurrentDices[4].ToString();
-
-                CheckScores(player1.CurrentDices);
-            }
-            else
+            if (chance == 0)
             {
                 MessageBox.Show("Kifogytál a probálkozásokból!");
-            }
-        }
-        private void generatedButton1_Click(object sender, EventArgs e)
-        {
-            
-            if(generatedButton1.Text != "")
-            {
-                isActiveButton[0] = !isActiveButton[0];
-                possChanging((Button)sender, 0);
-            }
-        }
-        private void generatedButton2_Click(object sender, EventArgs e)
-        {
-            if (generatedButton1.Text != "")
-            {
-                isActiveButton[1] = !isActiveButton[1];
-                possChanging((Button)sender, 1);
+                return;
             }
 
+            chance--;
+            changeCounterLabel.Text = chance.ToString();
+
+            player1.GenerateDiceParts(buttonInformations.Values.ToArray());
+
+            generatedButton1.Text = player1.CurrentDices[0].ToString();
+            generatedButton2.Text = player1.CurrentDices[1].ToString();
+            generatedButton3.Text = player1.CurrentDices[2].ToString();
+            generatedButton4.Text = player1.CurrentDices[3].ToString();
+            generatedButton5.Text = player1.CurrentDices[4].ToString();
+
+            CheckScores(player1.CurrentDices);
         }
-
-        private void generatedButton3_Click(object sender, EventArgs e)
+        
+        public void possChanging(object sender, EventArgs e)
         {
-            if (generatedButton1.Text != "")
-            {
-                isActiveButton[2] = !isActiveButton[2];
-                possChanging((Button)sender, 2);
-            }
-        }
-
-        private void generatedButton4_Click(object sender, EventArgs e)
-        {
-            if (generatedButton1.Text != "")
-            {
-                isActiveButton[3] = !isActiveButton[3];
-                possChanging((Button)sender, 3);
-            }
-        }
-
-        private void generatedButton5_Click(object sender, EventArgs e)
-        {
-            if (generatedButton1.Text != "")
-            {
-                isActiveButton[4] = !isActiveButton[4];
-                possChanging((Button)sender, 4);
-            }
-        }
-        public void possChanging(Button sender, int index) =>
-            sender.Location = new Point(sender.Location.X, isActiveButton[index] ? sender.Location.Y + 10 : sender.Location.Y - 10);
-
-        private void Yahtzee_Load(object sender, EventArgs e)
-        {
-
+            Button current = (Button)sender;
+            buttonInformations[current] = !buttonInformations[current];
+            current.Location = new Point(current.Location.X, buttonInformations[current] ? current.Location.Y + 10 : current.Location.Y - 10);
         }
 
         private void CheckScores(int[] dices)
         {
-            player1Ones.Text = player1.ScoreNumbers(dices, 1).ToString();
-            player1Twos.Text = player1.ScoreNumbers(dices, 2).ToString();
-            player1Threes.Text = player1.ScoreNumbers(dices, 3).ToString();
-            player1Fours.Text = player1.ScoreNumbers(dices, 4).ToString();
-            player1Fives.Text = player1.ScoreNumbers(dices, 5).ToString();
-            player1Sixes.Text = player1.ScoreNumbers(dices, 6).ToString();
+            player1Ones.Text = lockedInformations[player1Ones] ? player1.ScoreNumbers(dices, 1).ToString() : player1Ones.Text;
+            player1Twos.Text = lockedInformations[player1Twos] ? player1.ScoreNumbers(dices, 2).ToString() : player1Twos.Text;
+            player1Threes.Text = lockedInformations[player1Threes] ? player1.ScoreNumbers(dices, 3).ToString() : player1Threes.Text;
+            player1Fours.Text = lockedInformations[player1Fours] ? player1.ScoreNumbers(dices, 4).ToString() : player1Fours.Text;
+            player1Fives.Text = lockedInformations[player1Fives] ? player1.ScoreNumbers(dices, 5).ToString() : player1Fives.Text;
+            player1Sixes.Text = lockedInformations[player1Sixes] ? player1.ScoreNumbers(dices, 6).ToString() : player1Sixes.Text;
 
-            player1ThreeKind.Text = player1.ScoreKinds(dices, 3).ToString();
-            player1FourKind.Text = player1.ScoreKinds(dices, 4).ToString();
-            player1FullHouse.Text = player1.ScoreFullHouse(dices).ToString();
-            player1SmallStraight.Text = player1.ScoreStraight(dices, 4).ToString();
-            player1LargeStraight.Text = player1.ScoreStraight(dices, 5).ToString();
-            player1Yahtzee.Text = player1.ScoreYahtzee(dices).ToString();
-            player1Chance.Text = player1.ScoreChance(dices).ToString();
+            player1ThreeKind.Text = lockedInformations[player1ThreeKind] ? player1.ScoreKinds(dices, 3).ToString() : player1ThreeKind.Text;
+            player1FourKind.Text = lockedInformations[player1FourKind] ? player1.ScoreKinds(dices, 4).ToString() : player1FourKind.Text;
+            player1FullHouse.Text = lockedInformations[player1FullHouse] ? player1.ScoreFullHouse(dices).ToString() : player1FullHouse.Text;
+            player1SmallStraight.Text = lockedInformations[player1SmallStraight] ? player1.ScoreStraight(dices, 4).ToString() : player1SmallStraight.Text;
+            player1LargeStraight.Text = lockedInformations[player1LargeStraight] ? player1.ScoreStraight(dices, 5).ToString() : player1LargeStraight.Text;
+            player1Yahtzee.Text = lockedInformations[player1Yahtzee] ? player1.ScoreYahtzee(dices).ToString() : player1Yahtzee.Text;
+            player1Chance.Text = lockedInformations[player1Chance] ? player1.ScoreChance(dices).ToString() : player1Chance.Text;
         }
 
         private void SaveLock(object sender, EventArgs e)
         {
             Button current = (Button)sender;
 
-            generatedButton5.Text = generatedButton4.Text = generatedButton3.Text = generatedButton2.Text = generatedButton1.Text = "";
+            current.Enabled = false;
+            current.BackColor = Color.White;
 
+            generatedButton5.Text = generatedButton4.Text = generatedButton3.Text = generatedButton2.Text = generatedButton1.Text = "";
+           
             chance = 4;
+            
+            changeCounterLabel.Text = chance.ToString();
+
+            foreach (var item in buttonInformations)
+                if (buttonInformations[item.Key])
+                    item.Key.PerformClick();
+
+            lockedInformations[current] = false;
+        }
+
+        private void Yahtzee_Load(object sender, EventArgs e)
+        {
+            buttonInformations.Add(generatedButton1, false);
+            buttonInformations.Add(generatedButton2, false);
+            buttonInformations.Add(generatedButton3, false);
+            buttonInformations.Add(generatedButton4, false);
+            buttonInformations.Add(generatedButton5, false);
+
+            lockedInformations.Add(player1Ones, true);
+            lockedInformations.Add(player1Twos, true);
+            lockedInformations.Add(player1Threes, true);
+            lockedInformations.Add(player1Fours, true);
+            lockedInformations.Add(player1Fives, true);
+            lockedInformations.Add(player1Sixes, true);
+            lockedInformations.Add(player1ThreeKind, true);
+            lockedInformations.Add(player1FourKind, true);
+            lockedInformations.Add(player1FullHouse, true);
+            lockedInformations.Add(player1SmallStraight, true);
+            lockedInformations.Add(player1LargeStraight, true);
+            lockedInformations.Add(player1Yahtzee, true);
+            lockedInformations.Add(player1Chance, true);
         }
     }
 }
