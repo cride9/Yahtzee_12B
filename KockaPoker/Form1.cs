@@ -5,47 +5,84 @@ namespace KockaPoker
 {
     public partial class Yahtzee : Form
     {
+        /* Gomb információk tárolására */
         static Dictionary<Button, bool> buttonInformations = new();
         static Dictionary<Button, bool> lockedInformations = new();
+
+        /* Játékos létrehozása */
         static PlayerStats player1 = new();
+
+        /* Próbálkozások (1dobás 3 újradobás) */
         static int chance = 4;
+        static bool alreadyLocked = false;
+        static bool reset = false;
 
         public Yahtzee()
         {
             InitializeComponent();
         }
 
+        /* Dobás gomb */
         private void throwButton_Click(object sender, EventArgs e)
         {
+            /* Vége a játéknak check */
+            if (!lockedInformations.ContainsValue(true))
+            {
+                MessageBox.Show("Vége a játéknak");
+                return;
+            }
+
+            /* Van-e még próbálkozás */
             if (chance == 0)
             {
                 MessageBox.Show("Kifogytál a probálkozásokból!");
                 return;
             }
 
+            /* Újra lehessen választani */
+            alreadyLocked = false;
+
+            /* Levonjuk a próbálkozást */
             chance--;
+
+            /* Vizualizálás */
             changeCounterLabel.Text = chance.ToString();
 
+            /* Generáljuk újra azokat, amiket a játékos akar */
             player1.GenerateDiceParts(buttonInformations.Values.ToArray());
 
+            /* Megváltoztatni a dobott összegekre */
             generatedButton1.Text = player1.CurrentDices[0].ToString();
             generatedButton2.Text = player1.CurrentDices[1].ToString();
             generatedButton3.Text = player1.CurrentDices[2].ToString();
             generatedButton4.Text = player1.CurrentDices[3].ToString();
             generatedButton5.Text = player1.CurrentDices[4].ToString();
 
+            /* Megnézni miket lehet velük csinálni */
             CheckScores(player1.CurrentDices);
         }
         
+        /* Kiválasztás vizualizálása (lejjebb megy a gomb) */
         public void possChanging(object sender, EventArgs e)
         {
+            /* Jelenlegi gomb, amivel interakcióba léptünk */
             Button current = (Button)sender;
+
+            /* Ha még nem dobtunk, ne lehessen kiválasztani */
+            if (current.Text == "" && !reset)
+                return;
+
+            /* Kiválasztás kezelés */
             buttonInformations[current] = !buttonInformations[current];
+
+            /* Pozíció változtatás */
             current.Location = new Point(current.Location.X, buttonInformations[current] ? current.Location.Y + 10 : current.Location.Y - 10);
         }
 
+        /* Eredmények vizsgálata */
         private void CheckScores(int[] dices)
         {
+            /* Mindegyik gombnak beírjuk a pontok összegét amit tudunk velük szerezni */
             player1Ones.Text = lockedInformations[player1Ones] ? player1.ScoreNumbers(dices, 1).ToString() : player1Ones.Text;
             player1Twos.Text = lockedInformations[player1Twos] ? player1.ScoreNumbers(dices, 2).ToString() : player1Twos.Text;
             player1Threes.Text = lockedInformations[player1Threes] ? player1.ScoreNumbers(dices, 3).ToString() : player1Threes.Text;
@@ -62,26 +99,41 @@ namespace KockaPoker
             player1Chance.Text = lockedInformations[player1Chance] ? player1.ScoreChance(dices).ToString() : player1Chance.Text;
         }
 
+        /* Kiválasztás */
         private void SaveLock(object sender, EventArgs e)
         {
+            /* Ha már lett választva ne engedje */
+            if (alreadyLocked)
+            {
+                ResetGeneratedNumbers();
+                return;
+            }
+
+            /* Jelenlegi gomb, amivel interakcióba léptünk */
             Button current = (Button)sender;
 
+            /* Ez a gomb többé nem megnyomható */
             current.Enabled = false;
+
+            /* Vizualizálás */
             current.BackColor = Color.White;
 
+            /* A dobott összegek nullázása */
             generatedButton5.Text = generatedButton4.Text = generatedButton3.Text = generatedButton2.Text = generatedButton1.Text = "";
            
+            /* Visszakapja a 4dobást */
             chance = 4;
-            
-            changeCounterLabel.Text = chance.ToString();
+            changeCounterLabel.Text = (chance - 1).ToString();
 
-            foreach (var item in buttonInformations)
-                if (buttonInformations[item.Key])
-                    item.Key.PerformClick();
-
+            /* Ez a gomb már használva lett */
             lockedInformations[current] = false;
+
+            /* Ne használhassunk több gombot */
+            alreadyLocked = true;
+            ResetGeneratedNumbers();
         }
 
+        /* Könyvtárak feltöltése minden gomb adattal */
         private void Yahtzee_Load(object sender, EventArgs e)
         {
             buttonInformations.Add(generatedButton1, false);
@@ -103,6 +155,19 @@ namespace KockaPoker
             lockedInformations.Add(player1LargeStraight, true);
             lockedInformations.Add(player1Yahtzee, true);
             lockedInformations.Add(player1Chance, true);
+        }
+
+        void ResetGeneratedNumbers()
+        {
+            /* Nem játkos kattintás */
+            reset = true;
+
+            /* A kiválasztott kockákat visszarakni a sima állapotukba (feltolni) */
+            foreach (var item in buttonInformations)
+                if (buttonInformations[item.Key])
+                    item.Key.PerformClick();
+
+            reset = false;
         }
     }
 }
