@@ -12,6 +12,9 @@ namespace KockaPoker
         /* Játékos létrehozása */
         static PlayerStats player1 = new();
 
+        /* Játékos hozzáadása */
+        static bool isMultiplayerChechked = false;
+
         /* Próbálkozások (1dobás 3 újradobás) */
         static int chance = 4;
         static bool alreadyLocked = false;
@@ -46,17 +49,17 @@ namespace KockaPoker
             chance--;
 
             /* Vizualizálás */
-            changeCounterLabel.Text = chance.ToString();
+            p1ChangeCounterLabel.Text = chance.ToString();
 
             /* Generáljuk újra azokat, amiket a játékos akar */
             player1.GenerateDiceParts(buttonInformations.Values.ToArray());
 
             /* Megváltoztatni a dobott összegekre */
-            generatedButton1.Text = player1.CurrentDices[0].ToString();
-            generatedButton2.Text = player1.CurrentDices[1].ToString();
-            generatedButton3.Text = player1.CurrentDices[2].ToString();
-            generatedButton4.Text = player1.CurrentDices[3].ToString();
-            generatedButton5.Text = player1.CurrentDices[4].ToString();
+            p1GeneratedButton1.Text = player1.CurrentDices[0].ToString();
+            p1GeneratedButton2.Text = player1.CurrentDices[1].ToString();
+            p1GeneratedButton3.Text = player1.CurrentDices[2].ToString();
+            p1GeneratedButton4.Text = player1.CurrentDices[3].ToString();
+            p1GeneratedButton5.Text = player1.CurrentDices[4].ToString();
 
             /* Megnézni miket lehet velük csinálni */
             CheckScores(player1.CurrentDices);
@@ -119,11 +122,11 @@ namespace KockaPoker
             current.BackColor = Color.White;
 
             /* A dobott összegek nullázása */
-            generatedButton5.Text = generatedButton4.Text = generatedButton3.Text = generatedButton2.Text = generatedButton1.Text = "";
+            p1GeneratedButton5.Text = p1GeneratedButton4.Text = p1GeneratedButton3.Text = p1GeneratedButton2.Text = p1GeneratedButton1.Text = "";
            
             /* Visszakapja a 4dobást */
             chance = 4;
-            changeCounterLabel.Text = (chance - 1).ToString();
+            p1ChangeCounterLabel.Text = (chance - 1).ToString();
 
             /* Ez a gomb már használva lett */
             lockedInformations[current] = false;
@@ -136,11 +139,11 @@ namespace KockaPoker
         /* Könyvtárak feltöltése minden gomb adattal */
         private void Yahtzee_Load(object sender, EventArgs e)
         {
-            buttonInformations.Add(generatedButton1, false);
-            buttonInformations.Add(generatedButton2, false);
-            buttonInformations.Add(generatedButton3, false);
-            buttonInformations.Add(generatedButton4, false);
-            buttonInformations.Add(generatedButton5, false);
+            buttonInformations.Add(p1GeneratedButton1, false);
+            buttonInformations.Add(p1GeneratedButton2, false);
+            buttonInformations.Add(p1GeneratedButton3, false);
+            buttonInformations.Add(p1GeneratedButton4, false);
+            buttonInformations.Add(p1GeneratedButton5, false);
 
             lockedInformations.Add(player1Ones, true);
             lockedInformations.Add(player1Twos, true);
@@ -168,6 +171,20 @@ namespace KockaPoker
                     item.Key.PerformClick();
 
             reset = false;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isMultiplayerChechked)
+            {
+                p2Panel.Visible = false;
+                isMultiplayerChechked = false;
+
+                return;
+            }
+
+            p2Panel.Visible = true;
+            isMultiplayerChechked = true;
         }
     }
 }
