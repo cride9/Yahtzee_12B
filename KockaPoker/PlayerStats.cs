@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KockaPoker
 {
-    internal class PlayerStats
+    public class PlayerStats
     {
         /* Saját kockagenerálás mindkettő játékosnak */
         static Random diceGenerator = new Random();
