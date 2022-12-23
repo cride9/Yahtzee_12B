@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 
 namespace KockaPoker
@@ -24,6 +25,14 @@ namespace KockaPoker
 
         static playerID playerTurn = playerID.PLAYER1;
 
+        /* Players has Bonus? */
+        static bool p1HasBonus = false;
+        static bool p2HasBonus = false;
+
+        /* Players Summarys */
+        static int p1Summary = 0;
+        static int p2Summary = 0;
+
         public Yahtzee()
         {
             InitializeComponent();
@@ -37,6 +46,16 @@ namespace KockaPoker
 
                 if (!info.GetLockInformations(playerID.PLAYER1).ContainsValue(true))
                 {
+                    p1FirstSum.Text = TopSideSum(playerID.PLAYER1).ToString();
+
+                    if (p1HasBonus)
+                        p1FirstBonus.Text = "25";
+                    else
+                        p1FirstBonus.Text = "0";
+
+                    BotSideSum(playerID.PLAYER1);
+                    p1Sum.Text = p1Summary.ToString();
+
                     MessageBox.Show("Vége a játéknak");
                     return;
                 }
@@ -74,6 +93,16 @@ namespace KockaPoker
             {
                 if (!info.GetLockInformations(playerID.PLAYER2).ContainsValue(true))
                 {
+                    p2FirstSum.Text = TopSideSum(playerID.PLAYER2).ToString();
+
+                    if (p2HasBonus)
+                        p2FirstBonus.Text = "25";
+                    else
+                        p2FirstBonus.Text = "0";
+
+                    BotSideSum(playerID.PLAYER2);
+                    p2Sum.Text = p2Summary.ToString();
+
                     MessageBox.Show("Vége a játéknak");
                     return;
                 }
@@ -110,7 +139,7 @@ namespace KockaPoker
         }
 
         /* Kiválasztás vizualizálása (lejjebb megy a gomb) */
-        public void possChanging(object sender, EventArgs e)
+        public void PossChanging(object sender, EventArgs e)
         {
             /* Jelenlegi gomb, amivel interakcióba léptünk */
             Button current = (Button)sender;
@@ -355,6 +384,57 @@ namespace KockaPoker
             player2Panel.Visible = true;
             isMultiplayerChechked = true;
             
+        }
+
+        public int TopSideSum(playerID ID)
+        {
+            /* Player 1 elsõ rész Összegzõ */
+            if(ID == playerID.PLAYER1)
+            {
+                int p1Part1Sum = int.Parse(p1Ones.Text) + int.Parse(p1Twos.Text) + int.Parse(p1Threes.Text) + int.Parse(p1Fours.Text) + int.Parse(p1Fives.Text) + int.Parse(p1Sixes.Text);
+
+                if (p1Part1Sum >= 63)
+                    p1HasBonus = true;
+
+                p1Summary += p1Part1Sum;
+
+                return p1Part1Sum;
+            }
+
+            /* Player 2 elsõ rész Összegzõ */
+            else if (ID == playerID.PLAYER2)
+            {
+                int p2Part1Sum = int.Parse(p2Ones.Text) + int.Parse(p2Twos.Text) + int.Parse(p2Threes.Text) + int.Parse(p2Fours.Text) + int.Parse(p2Fives.Text) + int.Parse(p2Sixes.Text);
+
+                if (p2Part1Sum >= 63)
+                    p2HasBonus = true;
+
+                p2Summary += p2Part1Sum;
+
+                return p2Part1Sum;
+            }
+
+            return 0;
+        }
+        public void BotSideSum(playerID ID)
+        {
+            /* Player 1 Összegzõ */
+            if (ID == playerID.PLAYER1)
+            {
+                p1Summary += int.Parse(p1ThreeKind.Text) + int.Parse(p1FourKind.Text) + int.Parse(p1FullHouse.Text) + int.Parse(p1SmallStraight.Text) + int.Parse(p1LargeStraight.Text) + int.Parse(p1Yahtzee.Text) + int.Parse(p1Chance.Text);
+
+                if (p1HasBonus)
+                    p1Summary += 25;
+            }
+
+            /* Player 2 Összegzõ */
+            else if (ID == playerID.PLAYER2)
+            {
+                p2Summary += int.Parse(p2ThreeKind.Text) + int.Parse(p2FourKind.Text) + int.Parse(p2FullHouse.Text) + int.Parse(p2SmallStraight.Text) + int.Parse(p2LargeStraight.Text) + int.Parse(p2Yahtzee.Text) + int.Parse(p2Chance.Text);
+
+                if (p2HasBonus)
+                    p2Summary += 25;
+            }
         }
     }
 }

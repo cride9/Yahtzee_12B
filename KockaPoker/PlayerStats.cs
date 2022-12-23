@@ -32,7 +32,6 @@ namespace KockaPoker
             foreach (int current in dices)
                 if (current == selectedNumber)
                     sum += current;
-
             return sum;
         }
         public int ScoreKinds(int[] dices, int countKind)
@@ -48,8 +47,9 @@ namespace KockaPoker
 
             return 0;
         }
-        public int ScoreFullHouse(int[] dices) => /* Előző funkciókat felhasználva */
+        public int ScoreFullHouse(int[] dices) =>/* Előző funkciókat felhasználva */
             (ScoreKinds(dices, 2) != 0 && ScoreKinds(dices, 3) != 0) ? 25 : 0;
+            
         public int ScoreStraight(int[] dices, int straightCount)
         {
             /* Kell egy ideiglenes tömb, vagy össze fogja kutyulni a dobásokat */
@@ -71,10 +71,13 @@ namespace KockaPoker
 
             return 0;
         }
+
         public int ScoreYahtzee(int[] dices) => /* 5db ugyanolyan előző funkcióval */
             ScoreKinds(dices, 5) != 0 ? 50 : 0;
-        public int ScoreChance(int[] dices) => /* Összes kocka összeadva */
+
+        public int ScoreChance(int[] dices) =>/* Összes kocka összeadva */
             dices.Sum();
+            
         public void GenerateDiceParts(bool[] regenerate)
         {
             /* Újragenerálni a nem kiválasztott kockadarabokat */
