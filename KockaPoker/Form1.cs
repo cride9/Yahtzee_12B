@@ -452,6 +452,7 @@ namespace KockaPoker
 
         private void ResetGame(object sender, MouseEventArgs e)
         {
+            multiplayerCheck.Show();
             ResetPlayer(playerID.PLAYER1);
             ResetPlayer(playerID.PLAYER2); 
         }
