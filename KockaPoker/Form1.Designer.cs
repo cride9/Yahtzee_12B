@@ -75,7 +75,7 @@
             this.p2GeneratedButton2 = new System.Windows.Forms.Button();
             this.p2GeneratedButton1 = new System.Windows.Forms.Button();
             this.player2ThrowButton = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.multiplayerCheck = new System.Windows.Forms.CheckBox();
             this.resultsLabel = new System.Windows.Forms.Label();
             this.ResultPanel = new System.Windows.Forms.Panel();
             this.p2ScoreLabel = new System.Windows.Forms.Label();
@@ -106,6 +106,7 @@
             this.p1Threes = new System.Windows.Forms.Button();
             this.p1Twos = new System.Windows.Forms.Button();
             this.p1Ones = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.topSumPanel.SuspendLayout();
             this.botPanel.SuspendLayout();
             this.botSumPanel.SuspendLayout();
@@ -153,7 +154,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(97, 28);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Negyesek";
+            this.label4.Text = "Négyesek";
             // 
             // label5
             // 
@@ -628,17 +629,17 @@
             this.player2ThrowButton.UseVisualStyleBackColor = true;
             this.player2ThrowButton.Click += new System.EventHandler(this.Dobas);
             // 
-            // checkBox1
+            // multiplayerCheck
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBox1.Location = new System.Drawing.Point(7, 379);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(83, 19);
-            this.checkBox1.TabIndex = 68;
-            this.checkBox1.Text = "Multiplayer";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.MultiPlayerCheckbox);
+            this.multiplayerCheck.AutoSize = true;
+            this.multiplayerCheck.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.multiplayerCheck.Location = new System.Drawing.Point(7, 379);
+            this.multiplayerCheck.Name = "multiplayerCheck";
+            this.multiplayerCheck.Size = new System.Drawing.Size(83, 19);
+            this.multiplayerCheck.TabIndex = 68;
+            this.multiplayerCheck.Text = "Multiplayer";
+            this.multiplayerCheck.UseVisualStyleBackColor = true;
+            this.multiplayerCheck.CheckedChanged += new System.EventHandler(this.MultiPlayerCheckbox);
             // 
             // resultsLabel
             // 
@@ -992,16 +993,30 @@
             this.p1Ones.UseVisualStyleBackColor = true;
             this.p1Ones.Click += new System.EventHandler(this.SaveLock);
             // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(111, 375);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(78, 26);
+            this.button1.TabIndex = 73;
+            this.button1.Text = "Visszaállítás";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ResetGame);
+            // 
             // Yahtzee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(511, 567);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.player1Panel);
             this.Controls.Add(this.player2Panel);
             this.Controls.Add(this.ResultPanel);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.multiplayerCheck);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label6);
@@ -1068,7 +1083,7 @@
         private Button p2GeneratedButton2;
         private Button p2GeneratedButton1;
         private Button player2ThrowButton;
-        private CheckBox checkBox1;
+        private CheckBox multiplayerCheck;
         private Label resultsLabel;
         private Panel ResultPanel;
         private Label label18;
@@ -1119,5 +1134,6 @@
         private Button p1Threes;
         private Button p1Twos;
         private Button p1Ones;
+        private Button button1;
     }
 }

@@ -12,13 +12,13 @@ namespace KockaPoker
 
     public partial class Yahtzee : Form
     {
-        /* Inform·ciÛk kezelÈse */
+        /* Inform√°ci√≥k kezel√©se */
         static GameInformations info = new();
 
-        /* J·tÈkos hozz·ad·sa */
+        /* J√°t√©kos hozz√°ad√°sa */
         static bool isMultiplayerChechked = false;
 
-        /* PrÛb·lkoz·sok (1dob·s 3 ˙jradob·s) */
+        /* Pr√≥b√°lkoz√°sok (1dob√°s 3 √∫jradob√°s) */
         static int chance = 4;
         static bool alreadyLocked = false;
         static bool reset = false;
@@ -38,12 +38,12 @@ namespace KockaPoker
             InitializeComponent();
         }
 
-        /* Dob·s gomb */
+        /* Dob√°s gomb */
         private void Dobas(object sender, EventArgs e)
         {
             if (playerTurn == playerID.PLAYER1 && (Button)sender == player1ThrowButton)
             {
-
+                multiplayerCheck.Hide();
                 if (!info.GetLockInformations(playerID.PLAYER1).ContainsValue(true))
                 {
                     p1FirstSum.Text = TopSideSum(playerID.PLAYER1).ToString();
@@ -56,37 +56,38 @@ namespace KockaPoker
                     BotSideSum(playerID.PLAYER1);
                     p1Sum.Text = p1Summary.ToString();
 
-                    MessageBox.Show("VÈge a j·tÈknak");
+                    multiplayerCheck.Show();
+                    MessageBox.Show("V√©ge a j√°t√©knak");
                     return;
                 }
 
-                /* Van-e mÈg prÛb·lkoz·s */
+                /* Van-e m√©g pr√≥b√°lkoz√°s */
                 if (chance == 0)
                 {
-                    MessageBox.Show("Kifogyt·l a prob·lkoz·sokbÛl!");
+                    MessageBox.Show("Kifogyt√°l a prob√°lkoz√°sokb√≥l!");
                     return;
                 }
 
-                /* ⁄jra lehessen v·lasztani */
+                /* √öjra lehessen v√°lasztani */
                 alreadyLocked = false;
 
-                /* Levonjuk a prÛb·lkoz·st */
+                /* Levonjuk a pr√≥b√°lkoz√°st */
                 chance--;
 
-                /* Vizualiz·l·s */
+                /* Vizualiz√°l√°s */
                 player1ChangeCounterLabel.Text = chance.ToString();
 
-                /* Gener·ljuk ˙jra azokat, amiket a j·tÈkos akar */
+                /* Gener√°ljuk √∫jra azokat, amiket a j√°t√©kos akar */
                 info.GetPlayer(playerID.PLAYER1).GenerateDiceParts(info.GetButtons(playerID.PLAYER1).Values.ToArray());
 
-                /* Megv·ltoztatni a dobott ˆsszegekre */
+                /* Megv√°ltoztatni a dobott √∂sszegekre */
                 p1GeneratedButton1.Text = info.GetPlayer(playerID.PLAYER1).CurrentDices[0].ToString();
                 p1GeneratedButton2.Text = info.GetPlayer(playerID.PLAYER1).CurrentDices[1].ToString();
                 p1GeneratedButton3.Text = info.GetPlayer(playerID.PLAYER1).CurrentDices[2].ToString();
                 p1GeneratedButton4.Text = info.GetPlayer(playerID.PLAYER1).CurrentDices[3].ToString();
                 p1GeneratedButton5.Text = info.GetPlayer(playerID.PLAYER1).CurrentDices[4].ToString();
 
-                /* MegnÈzni miket lehet vel¸k csin·lni */
+                /* Megn√©zni miket lehet vel√ºk csin√°lni */
                 CheckScores(info.GetPlayer(playerID.PLAYER1).CurrentDices);
             }
             else if (playerTurn == playerID.PLAYER2 && (Button)sender == player2ThrowButton)
@@ -103,74 +104,74 @@ namespace KockaPoker
                     BotSideSum(playerID.PLAYER2);
                     p2Sum.Text = p2Summary.ToString();
 
-                    MessageBox.Show("VÈge a j·tÈknak");
+                    MessageBox.Show("V√©ge a j√°t√©knak");
                     return;
                 }
 
-                /* Van-e mÈg prÛb·lkoz·s */
+                /* Van-e m√©g pr√≥b√°lkoz√°s */
                 if (chance == 0)
                 {
-                    MessageBox.Show("Kifogyt·l a prob·lkoz·sokbÛl!");
+                    MessageBox.Show("Kifogyt√°l a prob√°lkoz√°sokb√≥l!");
                     return;
                 }
 
-                /* ⁄jra lehessen v·lasztani */
+                /* √öjra lehessen v√°lasztani */
                 alreadyLocked = false;
 
-                /* Levonjuk a prÛb·lkoz·st */
+                /* Levonjuk a pr√≥b√°lkoz√°st */
                 chance--;
 
-                /* Vizualiz·l·s */
+                /* Vizualiz√°l√°s */
                 player2ChangeCounterLabel.Text = chance.ToString();
 
-                /* Gener·ljuk ˙jra azokat, amiket a j·tÈkos akar */
+                /* Gener√°ljuk √∫jra azokat, amiket a j√°t√©kos akar */
                 info.GetPlayer(playerID.PLAYER2).GenerateDiceParts(info.GetButtons(playerID.PLAYER2).Values.ToArray());
 
-                /* Megv·ltoztatni a dobott ˆsszegekre */
+                /* Megv√°ltoztatni a dobott √∂sszegekre */
                 p2GeneratedButton1.Text = info.GetPlayer(playerID.PLAYER2).CurrentDices[0].ToString();
                 p2GeneratedButton2.Text = info.GetPlayer(playerID.PLAYER2).CurrentDices[1].ToString();
                 p2GeneratedButton3.Text = info.GetPlayer(playerID.PLAYER2).CurrentDices[2].ToString();
                 p2GeneratedButton4.Text = info.GetPlayer(playerID.PLAYER2).CurrentDices[3].ToString();
                 p2GeneratedButton5.Text = info.GetPlayer(playerID.PLAYER2).CurrentDices[4].ToString();
 
-                /* MegnÈzni miket lehet vel¸k csin·lni */
+                /* Megn√©zni miket lehet vel√ºk csin√°lni */
                 CheckScores(info.GetPlayer(playerID.PLAYER2).CurrentDices);
             }
         }
 
-        /* Kiv·laszt·s vizualiz·l·sa (lejjebb megy a gomb) */
+        /* Kiv√°laszt√°s vizualiz√°l√°sa (lejjebb megy a gomb) */
         public void PossChanging(object sender, EventArgs e)
         {
-            /* Jelenlegi gomb, amivel interakciÛba lÈpt¸nk */
+            /* Jelenlegi gomb, amivel interakci√≥ba l√©pt√ºnk */
             Button current = (Button)sender;
 
-            /* Ha mÈg nem dobtunk, ne lehessen kiv·lasztani */
+            /* Ha m√©g nem dobtunk, ne lehessen kiv√°lasztani */
             if (current.Text == "" && !reset)
                 return;
 
             if (playerTurn == playerID.PLAYER1)
             {
-                /* Kiv·laszt·s kezelÈs */
+                /* Kiv√°laszt√°s kezel√©s */
                 info.GetButtons(playerID.PLAYER1)[current] = !info.GetButtons(playerID.PLAYER1)[current];
 
-                /* PozÌciÛ v·ltoztat·s */
+                /* Poz√≠ci√≥ v√°ltoztat√°s */
                 current.Location = new Point(current.Location.X, info.GetButtons(playerID.PLAYER1)[current] ? current.Location.Y + 10 : current.Location.Y - 10);
             }
             else
             {
-                /* Kiv·laszt·s kezelÈs */
+                /* Kiv√°laszt√°s kezel√©s */
                 info.GetButtons(playerID.PLAYER2)[current] = !info.GetButtons(playerID.PLAYER2)[current];
 
-                /* PozÌciÛ v·ltoztat·s */
+                /* Poz√≠ci√≥ v√°ltoztat√°s */
                 current.Location = new Point(current.Location.X, info.GetButtons(playerID.PLAYER2)[current] ? current.Location.Y + 10 : current.Location.Y - 10);
 
             }
         }
 
-        /* EredmÈnyek vizsg·lata */
+        /* Eredm√©nyek vizsg√°lata */
         private void CheckScores(int[] dices)
         {
-            /* Mindegyik gombnak beÌrjuk a pontok ˆsszegÈt amit tudunk vel¸k szerezni */
+            /* Mindegyik gombnak be√≠rjuk a pontok √∂sszeg√©t amit tudunk vel√ºk szerezni */
             if (playerTurn == playerID.PLAYER1)
             {
                 p1Ones.Text = info.GetLockInformations(playerID.PLAYER1)[p1Ones] ? info.GetPlayer(playerID.PLAYER1).ScoreNumbers(dices, 1).ToString() : p1Ones.Text;
@@ -209,55 +210,64 @@ namespace KockaPoker
             }
         }
 
-        /* Kiv·laszt·s */
+        /* Kiv√°laszt√°s */
         private void SaveLock(object sender, EventArgs e)
         {
-            /* Ha m·r lett v·lasztva ne engedje */
+
+
+            /* Ha m√°r lett v√°lasztva ne engedje */
             if (alreadyLocked)
             {
                 ResetGeneratedNumbers();
                 return;
             }
 
-            /* Jelenlegi gomb, amivel interakciÛba lÈpt¸nk */
+            /* Jelenlegi gomb, amivel interakci√≥ba l√©pt√ºnk */
             Button current = (Button)sender;
 
+            /* ha ures a gomb ne nyomjon mar ra wtf */
+            if (current.Text == "")
+            {
+                return;
+            }
+      
             /* Jelenlegi player check */
             if (playerTurn == playerID.PLAYER1)
             {
-                /* Biztos saj·tj·ra kattintott-e */
+                /* Biztos saj√°tj√°ra kattintott-e */
                 foreach (var currentButton in info.GetLockInformations(playerID.PLAYER1))
                 {
-                    /* Saj·t gombja */
+                    /* Saj√°t gombja */
                     if (current == currentButton.Key)
                     {
-                        /* Ez a gomb tˆbbÈ nem megnyomhatÛ */
+                        /* Ez a gomb t√∂bb√© nem megnyomhat√≥ */
                         current.Enabled = false;
 
-                        /* Vizualiz·l·s */
+                        /* Vizualiz√°l√°s */
                         current.BackColor = Color.White;
 
-                        /* A dobott ˆsszegek null·z·sa */
+                        /* A dobott √∂sszegek null√°z√°sa */
                         p1GeneratedButton5.Text = p1GeneratedButton4.Text = p1GeneratedButton3.Text = p1GeneratedButton1.Text = p1GeneratedButton2.Text = "";
 
-                        /* Ez a gomb m·r haszn·lva lett */
+                        /* Ez a gomb m√°r haszn√°lva lett */
                         info.GetLockInformations(playerID.PLAYER1)[current] = false;
 
-                        /* Visszakapja a 4dob·st */
+                        /* Visszakapja a 4dob√°st */
                         chance = 4;
 
-                        /* LehetosÈgek */
+                        /* Lehetos√©gek */
                         player1ChangeCounterLabel.Text = (chance - 1).ToString();
 
-                        /* Ne haszn·lhassunk tˆbb gombot */
+                        /* Ne haszn√°lhassunk t√∂bb gombot */
                         alreadyLocked = true;
                         ResetGeneratedNumbers();
 
-                        if (isMultiplayerChechked)
+                        if (isMultiplayerChechked) 
+                        { 
                             playerTurn = playerID.PLAYER2;
-
-                        player1ThrowButton.Hide();
-                        player2ThrowButton.Show();
+                            player1ThrowButton.Hide();
+                            player2ThrowButton.Show();
+                        }
 
                         return;
                     }
@@ -265,39 +275,41 @@ namespace KockaPoker
             }
             else
             {
-                /* Biztos saj·tj·ra kattintott-e */
+                /* Biztos saj√°tj√°ra kattintott-e */
                 foreach (var currentButton in info.GetLockInformations(playerID.PLAYER2))
                 {
-                    /* Saj·t gombja */
+                    /* Saj√°t gombja */
                     if (current == currentButton.Key)
                     {
-                        /* Ez a gomb tˆbbÈ nem megnyomhatÛ */
+                        /* Ez a gomb t√∂bb√© nem megnyomhat√≥ */
                         current.Enabled = false;
 
-                        /* Vizualiz·l·s */
+                        /* Vizualiz√°l√°s */
                         current.BackColor = Color.White;
 
-                        /* A dobott ˆsszegek null·z·sa */
+                        /* A dobott √∂sszegek null√°z√°sa */
                         p2GeneratedButton5.Text = p2GeneratedButton4.Text = p2GeneratedButton3.Text = p2GeneratedButton1.Text = p2GeneratedButton2.Text = "";
 
-                        /* Ez a gomb m·r haszn·lva lett */
+                        /* Ez a gomb m√°r haszn√°lva lett */
                         info.GetLockInformations(playerID.PLAYER2)[current] = false;
 
-                        /* Visszakapja a 4dob·st */
+                        /* Visszakapja a 4dob√°st */
                         chance = 4;
 
-                        /* LehetosÈgek */
+                        /* Lehetos√©gek */
                         player2ChangeCounterLabel.Text = (chance - 1).ToString();
 
-                        /* Ne haszn·lhassunk tˆbb gombot */
+                        /* Ne haszn√°lhassunk t√∂bb gombot */
                         alreadyLocked = true;
                         ResetGeneratedNumbers();
 
                         if (isMultiplayerChechked)
+                        {
                             playerTurn = playerID.PLAYER1;
-
-                        player1ThrowButton.Show();
-                        player2ThrowButton.Hide();
+                            player1ThrowButton.Show();
+                            player2ThrowButton.Hide();
+                        }
+                          
 
                         return;
                     }
@@ -305,15 +317,15 @@ namespace KockaPoker
             }
         }
 
-        /* Kˆnyvt·rak feltˆltÈse minden gomb adattal */
+        /* K√∂nyvt√°rak felt√∂lt√©se minden gomb adattal */
         private void Yahtzee_Load(object sender, EventArgs e)
         {
-            /* AzÈrt ez a megold·s Ès nem egyenkÈnti beÌrogat·s, mert kÈsobb lehet v·ltoztatni */
+            /* Az√©rt ez a megold√°s √©s nem egyenk√©nti be√≠rogat√°s, mert k√©sobb lehet v√°ltoztatni */
 
-            /* ÷sszes player inform·ciÛt megszerezni */
+            /* √ñsszes player inform√°ci√≥t megszerezni */
             for (int i = 0; i < Controls.Count; i++)
             {
-                /* Felso rÈsz = mindketto player check */
+                /* Felso r√©sz = mindketto player check */
                 if (Controls[i] == topPanel)
                 {
                     foreach (Control currentItem in topPanel.Controls)
@@ -324,7 +336,7 @@ namespace KockaPoker
                             info.GetLockInformations(playerID.PLAYER2).Add((Button)currentItem, true);
                     }
                 }
-                /* Also rÈsz = mindketto player check */
+                /* Also r√©sz = mindketto player check */
                 else if (Controls[i] == botPanel)
                 {
                     foreach (Control currentItem in botPanel.Controls)
@@ -335,14 +347,14 @@ namespace KockaPoker
                             info.GetLockInformations(playerID.PLAYER2).Add((Button)currentItem, true);
                     }
                 }
-                /* Csak player1 check a kock·khoz */
+                /* Csak player1 check a kock√°khoz */
                 else if (Controls[i] == player1Panel)
                 {
                     foreach (Control player1Item in player1Panel.Controls)
                         if (player1Item.Name.StartsWith("p1Gen"))
                             info.GetButtons(playerID.PLAYER1).Add((Button)player1Item, false);
                 }
-                /* Csak player2 check a kock·khoz */
+                /* Csak player2 check a kock√°khoz */
                 else if (Controls[i] == player2Panel)
                 {
                     foreach (Control player2Item in player2Panel.Controls)
@@ -356,10 +368,10 @@ namespace KockaPoker
 
         void ResetGeneratedNumbers()
         {
-            /* Nem j·tkos kattint·s */
+            /* Nem j√°tkos kattint√°s */
             reset = true;
 
-            /* A kiv·lasztott kock·kat visszarakni a sima ·llapotukba (feltolni) */
+            /* A kiv√°lasztott kock√°kat visszarakni a sima √°llapotukba (feltolni) */
             foreach (var item in info.GetButtons(playerID.PLAYER1))
                 if (info.GetButtons(playerID.PLAYER1)[item.Key])
                     item.Key.PerformClick();
@@ -388,7 +400,7 @@ namespace KockaPoker
 
         public int TopSideSum(playerID ID)
         {
-            /* Player 1 elsı rÈsz ÷sszegzı */
+            /* Player 1 els√µ r√©sz √ñsszegz√µ */
             if(ID == playerID.PLAYER1)
             {
                 int p1Part1Sum = int.Parse(p1Ones.Text) + int.Parse(p1Twos.Text) + int.Parse(p1Threes.Text) + int.Parse(p1Fours.Text) + int.Parse(p1Fives.Text) + int.Parse(p1Sixes.Text);
@@ -401,7 +413,7 @@ namespace KockaPoker
                 return p1Part1Sum;
             }
 
-            /* Player 2 elsı rÈsz ÷sszegzı */
+            /* Player 2 els√µ r√©sz √ñsszegz√µ */
             else if (ID == playerID.PLAYER2)
             {
                 int p2Part1Sum = int.Parse(p2Ones.Text) + int.Parse(p2Twos.Text) + int.Parse(p2Threes.Text) + int.Parse(p2Fours.Text) + int.Parse(p2Fives.Text) + int.Parse(p2Sixes.Text);
@@ -418,7 +430,8 @@ namespace KockaPoker
         }
         public void BotSideSum(playerID ID)
         {
-            /* Player 1 ÷sszegzı */
+
+            /* Player 1 √ñsszegz√µ */
             if (ID == playerID.PLAYER1)
             {
                 p1Summary += int.Parse(p1ThreeKind.Text) + int.Parse(p1FourKind.Text) + int.Parse(p1FullHouse.Text) + int.Parse(p1SmallStraight.Text) + int.Parse(p1LargeStraight.Text) + int.Parse(p1Yahtzee.Text) + int.Parse(p1Chance.Text);
@@ -427,7 +440,7 @@ namespace KockaPoker
                     p1Summary += 25;
             }
 
-            /* Player 2 ÷sszegzı */
+            /* Player 2 √ñsszegz√µ */
             else if (ID == playerID.PLAYER2)
             {
                 p2Summary += int.Parse(p2ThreeKind.Text) + int.Parse(p2FourKind.Text) + int.Parse(p2FullHouse.Text) + int.Parse(p2SmallStraight.Text) + int.Parse(p2LargeStraight.Text) + int.Parse(p2Yahtzee.Text) + int.Parse(p2Chance.Text);
@@ -435,6 +448,30 @@ namespace KockaPoker
                 if (p2HasBonus)
                     p2Summary += 25;
             }
+        }
+
+        private void ResetGame(object sender, MouseEventArgs e)
+        {
+            ResetPlayer(playerID.PLAYER1);
+            ResetPlayer(playerID.PLAYER2); 
+        }
+
+        private void ResetPlayer(playerID playerId)
+        {
+            foreach (var button in info.GetButtons(playerId))
+            {
+                button.Key.Text = "";
+            }
+
+            foreach (var button in info.GetLockInformations(playerId))
+            {
+                button.Key.Text = "";
+            }
+
+            chance = 4;
+            player1ChangeCounterLabel.Text = (chance - 1).ToString();
+
+            ResetGeneratedNumbers();
         }
     }
 }
