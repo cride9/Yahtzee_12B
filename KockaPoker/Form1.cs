@@ -12,6 +12,11 @@ namespace KockaPoker
 
     public partial class Yahtzee : Form
     {
+
+        /* ArtificalPlayer */
+        /* NOT WORKING WILL DO IT LATER THO */
+        static ArtificalOpponent opponent;
+
         /* Információk kezelése */
         static GameInformations info = new();
 
@@ -89,6 +94,7 @@ namespace KockaPoker
 
                 /* Megnézni miket lehet velük csinálni */
                 CheckScores(info.GetPlayer(playerID.PLAYER1).CurrentDices);
+                info.GetPlayer(playerID.PLAYER1).ThrowChance = chance;
             }
             else if (playerTurn == playerID.PLAYER2 && (Button)sender == player2ThrowButton)
             {
@@ -136,6 +142,7 @@ namespace KockaPoker
 
                 /* Megnézni miket lehet velük csinálni */
                 CheckScores(info.GetPlayer(playerID.PLAYER2).CurrentDices);
+                info.GetPlayer(playerID.PLAYER2).ThrowChance = chance;
             }
         }
 
@@ -254,6 +261,7 @@ namespace KockaPoker
 
                         /* Visszakapja a 4dobást */
                         chance = 4;
+                        info.GetPlayer(playerID.PLAYER1).ThrowChance = chance;
 
                         /* Lehetoségek */
                         player1ChangeCounterLabel.Text = (chance - 1).ToString();
@@ -267,6 +275,10 @@ namespace KockaPoker
                             playerTurn = playerID.PLAYER2;
                             player1ThrowButton.Hide();
                             player2ThrowButton.Show();
+
+                            /* NOT WORKING WILL DO IT LATER THO */
+                            //player2ThrowButton.PerformClick();
+                            //opponent.RunAlgorithm();
                         }
 
                         return;
@@ -295,6 +307,7 @@ namespace KockaPoker
 
                         /* Visszakapja a 4dobást */
                         chance = 4;
+                        info.GetPlayer(playerID.PLAYER2).ThrowChance = chance;
 
                         /* Lehetoségek */
                         player2ChangeCounterLabel.Text = (chance - 1).ToString();
@@ -364,6 +377,9 @@ namespace KockaPoker
             }
             player1ThrowButton.Show();
             player2ThrowButton.Hide();
+
+            /* NOT WORKING WILL DO IT LATER THO */
+            // opponent = new(ref info, playerID.PLAYER2);
         }
 
         void ResetGeneratedNumbers()
@@ -470,6 +486,7 @@ namespace KockaPoker
             }
 
             chance = 4;
+            info.GetPlayer(playerId).ThrowChance = chance;
             player1ChangeCounterLabel.Text = (chance - 1).ToString();
 
             ResetGeneratedNumbers();

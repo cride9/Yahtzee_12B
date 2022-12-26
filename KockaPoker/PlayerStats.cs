@@ -17,6 +17,9 @@ namespace KockaPoker
         /* Felső rész */
         public int[] Numbers { get; } = new int[6];
 
+        /* Mennyit dobhat? */
+        public int ThrowChance { get; set; }
+
         /* Alsó rész */
         public int ThreeKind { get; set; } /* ha van min 3db ugyanolyan akkor összeadja összes kockát */
         public int FourKind { get; set; } /* ha van min 4db ugyanolyan akkor összeadja összes kockát */

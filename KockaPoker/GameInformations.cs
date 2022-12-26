@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KockaPoker
 {
-    internal class GameInformations
+    public class GameInformations
     {
         /* Gomb információk tárolására */
         public static Dictionary<Button, bool>[] buttonInformations = new Dictionary<Button, bool>[] { new Dictionary<Button, bool>(), new Dictionary<Button, bool>() };
