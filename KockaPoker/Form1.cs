@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Channels;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace KockaPoker
 {
@@ -220,8 +221,6 @@ namespace KockaPoker
         /* Kiválasztás */
         private void SaveLock(object sender, EventArgs e)
         {
-
-
             /* Ha már lett választva ne engedje */
             if (alreadyLocked)
             {
@@ -277,8 +276,8 @@ namespace KockaPoker
                             player2ThrowButton.Show();
 
                             /* NOT WORKING WILL DO IT LATER THO */
-                            //player2ThrowButton.PerformClick();
-                            //opponent.RunAlgorithm();
+                            player2ThrowButton.PerformClick();
+                            opponent = new(info, playerID.PLAYER2, this);
                         }
 
                         return;
@@ -377,9 +376,6 @@ namespace KockaPoker
             }
             player1ThrowButton.Show();
             player2ThrowButton.Hide();
-
-            /* NOT WORKING WILL DO IT LATER THO */
-            // opponent = new(ref info, playerID.PLAYER2);
         }
 
         void ResetGeneratedNumbers()
