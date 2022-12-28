@@ -663,9 +663,9 @@
             this.multiplayerCheck.Location = new System.Drawing.Point(8, 505);
             this.multiplayerCheck.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.multiplayerCheck.Name = "multiplayerCheck";
-            this.multiplayerCheck.Size = new System.Drawing.Size(102, 24);
+            this.multiplayerCheck.Size = new System.Drawing.Size(76, 24);
             this.multiplayerCheck.TabIndex = 68;
-            this.multiplayerCheck.Text = "Multiplayer";
+            this.multiplayerCheck.Text = "Ellenfél";
             this.multiplayerCheck.UseVisualStyleBackColor = true;
             this.multiplayerCheck.CheckedChanged += new System.EventHandler(this.MultiPlayerCheckbox);
             // 
