@@ -15,7 +15,6 @@ namespace KockaPoker
     {
 
         /* ArtificalPlayer */
-        /* NOT WORKING WILL DO IT LATER THO */
         static ArtificalOpponent opponent;
 
         /* Információk kezelése */
@@ -52,15 +51,15 @@ namespace KockaPoker
                 multiplayerCheck.Hide();
                 if (!info.GetLockInformations(playerID.PLAYER1).ContainsValue(true))
                 {
-                    p1FirstSum.Text = TopSideSum(playerID.PLAYER1).ToString();
+                    //p1FirstSum.Text = TopSideSum(playerID.PLAYER1).ToString();
 
-                    if (p1HasBonus)
-                        p1FirstBonus.Text = "25";
-                    else
-                        p1FirstBonus.Text = "0";
+                    //if (p1HasBonus)
+                    //    p1FirstBonus.Text = "25";
+                    //else
+                    //    p1FirstBonus.Text = "0";
 
-                    BotSideSum(playerID.PLAYER1);
-                    p1Sum.Text = p1Summary.ToString();
+                    //BotSideSum(playerID.PLAYER1);
+                    //p1Sum.Text = p1Summary.ToString();
 
                     multiplayerCheck.Show();
                     MessageBox.Show("Vége a játéknak");
@@ -101,15 +100,15 @@ namespace KockaPoker
             {
                 if (!info.GetLockInformations(playerID.PLAYER2).ContainsValue(true))
                 {
-                    p2FirstSum.Text = TopSideSum(playerID.PLAYER2).ToString();
+                    //p2FirstSum.Text = TopSideSum(playerID.PLAYER2).ToString();
 
-                    if (p2HasBonus)
-                        p2FirstBonus.Text = "25";
-                    else
-                        p2FirstBonus.Text = "0";
+                    //if (p2HasBonus)
+                    //    p2FirstBonus.Text = "25";
+                    //else
+                    //    p2FirstBonus.Text = "0";
 
-                    BotSideSum(playerID.PLAYER2);
-                    p2Sum.Text = p2Summary.ToString();
+                    //BotSideSum(playerID.PLAYER2);
+                    //p2Sum.Text = p2Summary.ToString();
 
                     MessageBox.Show("Vége a játéknak");
                     return;
@@ -228,6 +227,9 @@ namespace KockaPoker
                 return;
             }
 
+            if (sender.GetType() != typeof(Button))
+                return;
+
             /* Jelenlegi gomb, amivel interakcióba léptünk */
             Button current = (Button)sender;
 
@@ -275,13 +277,22 @@ namespace KockaPoker
                             player1ThrowButton.Hide();
                             player2ThrowButton.Show();
 
-                            /* NOT WORKING WILL DO IT LATER THO */
-                            player2ThrowButton.PerformClick();
                             opponent = new(info, playerID.PLAYER2, this);
                         }
-
-                        return;
                     }
+                }
+                if (!info.GetLockInformations(playerID.PLAYER1).ContainsValue(true)) {
+                    p1FirstSum.Text = TopSideSum(playerID.PLAYER1).ToString();
+
+                    if (p1HasBonus)
+                        p1FirstBonus.Text = "25";
+                    else
+                        p1FirstBonus.Text = "0";
+
+                    BotSideSum(playerID.PLAYER1);
+                    p1Sum.Text = p1Summary.ToString();
+
+                    return;
                 }
             }
             else
@@ -321,10 +332,21 @@ namespace KockaPoker
                             player1ThrowButton.Show();
                             player2ThrowButton.Hide();
                         }
-                          
-
-                        return;
                     }
+                }
+
+                if (!info.GetLockInformations(playerID.PLAYER2).ContainsValue(true)) {
+                    p2FirstSum.Text = TopSideSum(playerID.PLAYER2).ToString();
+
+                    if (p2HasBonus)
+                        p2FirstBonus.Text = "25";
+                    else
+                        p2FirstBonus.Text = "0";
+
+                    BotSideSum(playerID.PLAYER2);
+                    p2Sum.Text = p2Summary.ToString();
+
+                    return;
                 }
             }
         }
@@ -466,19 +488,25 @@ namespace KockaPoker
         {
             multiplayerCheck.Show();
             ResetPlayer(playerID.PLAYER1);
-            ResetPlayer(playerID.PLAYER2); 
+            ResetPlayer(playerID.PLAYER2);
         }
 
         private void ResetPlayer(playerID playerId)
         {
             foreach (var button in info.GetButtons(playerId))
             {
+                info.GetButtons(playerId)[button.Key] = false;
                 button.Key.Text = "";
+                button.Key.Enabled = true;
+                button.Key.BackColor = Color.FromArgb(25, 25, 25);
             }
 
             foreach (var button in info.GetLockInformations(playerId))
             {
+                info.GetLockInformations(playerId)[button.Key] = true;
                 button.Key.Text = "";
+                button.Key.Enabled = true;
+                button.Key.BackColor = Color.FromArgb(25, 25, 25);
             }
 
             chance = 4;
